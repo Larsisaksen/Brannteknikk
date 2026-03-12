@@ -34,23 +34,31 @@
   </style>
 </head>
 <body>
-<div class="app">
-<aside class="sidebar">
-  <div class="card"><h1>Brannrapport</h1></div>
-  <div class="card">
-    <h2>Grunninformasjon</h2>
-    <div class="row2"><div><label>Virksomhet / bygg</label><input id="buildingName" placeholder="F.eks. Sameiet Stadionbygg" /></div><div><label>Dato</label><input id="inspectionDate" type="date" /></div></div>
-    <div class="row2"><div><label>Eier</label><input id="owner" placeholder="Eier" /></div><div><label>Eiers representant</label><input id="ownerRep" placeholder="Navn" /></div></div>
-    <div class="row2"><div><label>Adresse</label><input id="address" placeholder="Adresse" /></div><div><label>Ant. leietakere / brukere</label><input id="tenants" placeholder="F.eks. 6" /></div></div>
-    <div class="row3"><div><label>Type bygning</label><input id="buildingType" placeholder="Kontor / lager / handel" /></div><div><label>Areal</label><input id="area" placeholder="2300 KVM" /></div><div><label>Objekt</label><input id="objectRef" placeholder="A" /></div></div>
-    <div class="row3"><div><label>Brannklasse</label><input id="fireClass" placeholder="1" /></div><div><label>Risikoklasse</label><input id="riskClass" placeholder="5" /></div><div><label>TEK</label><input id="tek" placeholder="87/10" /></div></div>
-    <div class="row2"><div><label>Brannkonsept</label><select id="docConcept"><option>Ja</option><option selected>Nei</option><option>Delvis</option></select></div><div><label>Branntekniske tegninger</label><select id="docDrawings"><option>Ja</option><option>Nei</option><option selected>Delvis</option></select></div></div>
-    <div><label>Forsidebilde</label><input id="coverImage" type="file" accept="image/*" /></div>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="card"><h1>Brannrapport</h1></div>
+
+      <div class="card">
+        <h2>Grunninformasjon</h2>
+        <div class="row2"><div><label>Virksomhet / bygg</label><input id="buildingName" placeholder="F.eks. Sameiet Stadionbygg" /></div><div><label>Dato</label><input id="inspectionDate" type="date" /></div></div>
+        <div class="row2"><div><label>Eier</label><input id="owner" placeholder="Eier" /></div><div><label>Eiers representant</label><input id="ownerRep" placeholder="Navn" /></div></div>
+        <div class="row2"><div><label>Adresse</label><input id="address" placeholder="Adresse" /></div><div><label>Ant. leietakere / brukere</label><input id="tenants" placeholder="F.eks. 6" /></div></div>
+        <div class="row3"><div><label>Type bygning</label><input id="buildingType" placeholder="Kontor / lager / handel" /></div><div><label>Areal</label><input id="area" placeholder="2300 KVM" /></div><div><label>Objekt</label><input id="objectRef" placeholder="A" /></div></div>
+        <div class="row3"><div><label>Brannklasse</label><input id="fireClass" placeholder="1" /></div><div><label>Risikoklasse</label><input id="riskClass" placeholder="5" /></div><div><label>TEK</label><input id="tek" placeholder="87/10" /></div></div>
+        <div class="row2"><div><label>Brannkonsept</label><select id="docConcept"><option>Ja</option><option selected>Nei</option><option>Delvis</option></select></div><div><label>Branntekniske tegninger</label><select id="docDrawings"><option>Ja</option><option>Nei</option><option selected>Delvis</option></select></div></div>
+        <div><label>Forsidebilde</label><input id="coverImage" type="file" accept="image/*" /></div>
+      </div>
+
+      <div class="card"><h2>Velg kontrollpunkter</h2><div class="small muted">Brukeren velger først hvilke punkter som skal kontrolleres. Deretter vises kun tilhørende skjemaer lenger ned.</div><div id="moduleOptions" class="moduleGrid"></div></div>
+
+      <div class="card"><h2>Valgte skjemaer</h2><div id="moduleForms"></div><div class="btnRow"><button class="btnPrimary" onclick="renderReport()">Oppdater rapport</button><button class="btnSecondary" onclick="fillDemo()">Fyll eksempeldata</button><button class="btnGhost" onclick="window.print()">Skriv ut / lagre som PDF</button><button class="btnGhost" onclick="resetApp()">Tøm alt</button></div></div>
+    </aside>
+
+    <main class="previewWrap">
+      <div id="pages"></div>
+    </main>
   </div>
-  <div class="card"><h2>Velg kontrollpunkter</h2><div class="small muted">Brukeren velger først hvilke punkter som skal kontrolleres. Deretter vises kun tilhørende skjemaer lenger ned.</div><div id="moduleOptions" class="moduleGrid"></div></div>
-  <div class="card"><h2>Valgte skjemaer</h2><div id="moduleForms"></div><div class="btnRow"><button class="btnPrimary" onclick="renderReport()">Oppdater rapport</button><button class="btnSecondary" onclick="fillDemo()">Fyll eksempeldata</button><button class="btnGhost" onclick="window.print()">Skriv ut / lagre som PDF</button><button class="btnGhost" onclick="resetApp()">Tøm alt</button></div></div>
-</aside>
-</div>
+
 <script>
 const moduleDefs=[
 {id:1,title:"Brannslokkeutstyr - Håndslokkere",bullets:["Slokkeren er montert i henhold til brannteknisk beskrivelse","Slokkeren er montert på veggbrakett, godt festet til vegg","Ettersynsskilt er montert ved slokkeren","På slokker med trykkindikator, skal viseren være på det grønne feltet","Kontrollskiltet fra eksternkontrollør er ikke utløpt","Slokkeren er lett tilgjengelig"]},
