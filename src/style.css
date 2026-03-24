@@ -4,6 +4,7 @@
   --ink: #111;
   --line: #2a2a2a;
   --soft: #d3cece;
+  --soft-light: #ddd9d9;
   --ok: #18c36b;
   --bad: #ff3737;
   --white: #fff;
@@ -324,6 +325,11 @@ table {
   vertical-align: middle;
 }
 
+.reportTable td,
+.reportTable th:not(.sectionHead) {
+  background: #fff;
+}
+
 .reportTable .sectionHead {
   background: #cfc9c9;
   text-transform: uppercase;
@@ -336,7 +342,7 @@ table {
 
 .summaryStatus {
   font-weight: 700;
-  color: #fff;
+  color: #000;
   text-align: center;
 }
 
@@ -354,7 +360,7 @@ table {
   border: 1px solid var(--line);
   margin-top: 20px;
   font-size: 11px;
-  background: transparent;
+  background: #fff;
 }
 
 .lawBox .head {
@@ -369,6 +375,7 @@ table {
   padding: 6px 10px;
   border-top: 1px solid var(--line);
   text-align: center;
+  background: #fff;
 }
 
 .moduleSummaryTable td:first-child {
@@ -411,7 +418,7 @@ table {
   padding: 12px 14px;
   min-height: 96px;
   margin-bottom: 10px;
-  background: rgba(255,255,255,0.25);
+  background: #fff;
 }
 
 .bulletBox ul {
@@ -433,11 +440,18 @@ table {
   padding: 8px 10px;
   text-align: center;
   font-weight: 700;
-  background: #cfc9c9;
+  background: var(--soft-light);
 }
 
-.statusTable .fillGreen { background: var(--ok); }
-.statusTable .fillRed { background: var(--bad); }
+.statusTable .fillGreen {
+  background: var(--ok);
+  color: #000;
+}
+
+.statusTable .fillRed {
+  background: var(--bad);
+  color: #000;
+}
 
 .deviationTable {
   border: 1px solid var(--line);
@@ -452,9 +466,13 @@ table {
 }
 
 .deviationTable th {
-  background: #cfc9c9;
+  background: var(--soft-light);
   font-weight: 800;
   text-align: center;
+}
+
+.deviationTable td {
+  background: #fff;
 }
 
 .deviationTable td:nth-child(1) {
@@ -505,6 +523,26 @@ table {
   margin-bottom: 14px;
 }
 
+.commentBox {
+  border: 1px solid var(--line);
+  border-top: none;
+  padding: 10px 12px;
+  margin-top: -10px;
+  margin-bottom: 12px;
+  background: #fff;
+}
+
+.commentBox .title {
+  font-weight: 700;
+  font-size: 11px;
+  margin-bottom: 6px;
+}
+
+.commentBox .content {
+  font-size: 11px;
+  white-space: pre-wrap;
+}
+
 @media (max-width: 1200px) {
   .app {
     grid-template-columns: 1fr;
@@ -534,8 +572,21 @@ table {
 }
 
 @media print {
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+
+  html,
   body {
-    background: #fff;
+    width: 100%;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body {
+    background: #fff !important;
   }
 
   .sidebar {
@@ -548,15 +599,26 @@ table {
   }
 
   #pages {
-    max-width: none;
-    margin: 0;
+    max-width: none !important;
+    width: 100% !important;
+    margin: 0 !important;
   }
 
   .reportDocument {
-    box-shadow: none;
+    width: 100% !important;
+    max-width: none !important;
+    box-shadow: none !important;
     margin: 0;
-    padding: 0;
-    background: #fff;
+    padding: 0 2mm !important;
+    background: #fff !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+  }
+
+  .page {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
   }
 
   .page + .page {
@@ -564,4 +626,104 @@ table {
     padding-top: 12px;
     border-top: 0;
   }
+
+  body.printing-report .page {
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
+  body.printing-report .modulePageTitle,
+  body.printing-report .bulletBox,
+  body.printing-report .statusTable,
+  body.printing-report .deviationTable,
+  body.printing-report .lawBox,
+  body.printing-report .reportTable {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  body.printing-report .modulePageTitle {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  body.printing-report .modulePageTitle + .bulletBox,
+  body.printing-report .modulePageTitle + .bulletBox + .statusTable {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  body.printing-report .deviationTable tr,
+  body.printing-report .reportTable tr {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  body.printing-report .photo,
+  body.printing-report .emptyPhoto,
+  body.printing-report .heroImg {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  table {
+    width: 100% !important;
+    table-layout: fixed !important;
+  }
+
+  .reportTable,
+  .statusTable,
+  .deviationTable,
+  .modulePageTitle,
+  .bulletBox,
+  .lawBox {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .reportTable th,
+  .reportTable td,
+  .statusTable td,
+  .deviationTable th,
+  .deviationTable td,
+  .modulePageTitle div,
+  .lawBox .head,
+  .lawBox .item {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .statusGreen,
+  .statusRed,
+  .statusTable .fillGreen,
+  .statusTable .fillRed,
+  .reportTable .sectionHead,
+  .modulePageTitle div,
+  .statusTable td,
+  .deviationTable th,
+  .lawBox .head {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
+
+/* ===== Oppsummeringsfelt: grønn/rød X må vinne over vanlige tabellfarger ===== */
+.reportTable td.summaryStatus {
+  font-weight: 700;
+  text-align: center;
+  color: #000 !important;
+}
+
+.reportTable td.statusGreen.summaryStatus,
+.reportTable td.statusGreen {
+  background: var(--ok) !important;
+  color: #000 !important;
+}
+
+.reportTable td.statusRed.summaryStatus,
+.reportTable td.statusRed {
+  background: var(--bad) !important;
+  color: #000 !important;
 }

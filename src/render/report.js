@@ -8,10 +8,25 @@ function renderNotesBox(notes) {
   }
 
   return `
-    <div class="bulletBox">
-      <div style="font-weight:700;margin-bottom:8px;">FRITEKST / KOMMENTAR</div>
-      <div style="font-size:11px; line-height:1.5; white-space:pre-wrap;">${escapeHtml(notes)}</div>
+    <div class="commentBox">
+      <div class="title">KOMMENTAR</div>
+      <div class="content">${escapeHtml(notes)}</div>
     </div>
+  `;
+}
+
+function renderDocumentCommentRow(notes) {
+  if (!notes || !notes.trim()) {
+    return "";
+  }
+
+  return `
+    <tr>
+      <td colspan="2" style="font-size:11px; white-space:pre-wrap;">
+        <strong>KOMMENTAR:</strong><br />
+        ${escapeHtml(notes)}
+      </td>
+    </tr>
   `;
 }
 
@@ -71,10 +86,12 @@ export function renderCoverPage() {
     ? `<img class="heroImg" src="${state.coverImage}" alt="Forsidebilde" />`
     : `<div class="heroImg" style="display:flex;align-items:center;justify-content:center;color:#666;font-size:13px;">Ingen forsidebilde lastet opp</div>`;
 
+  const docConceptNotes = document.getElementById("docConceptNotes")?.value || "";
+  const docDrawingsNotes = document.getElementById("docDrawingsNotes")?.value || "";
+
   return `
     <section class="page">
 
-      <!-- NY LOGO -->
       <div class="brand">
         <img src="/logo.png" style="width:100%; max-width:300px;" alt="Logo" />
       </div>
@@ -112,10 +129,12 @@ export function renderCoverPage() {
           <td>Brannkonsept</td>
           <td class="center">${escapeHtml(document.getElementById("docConcept").value || "")}</td>
         </tr>
+        ${renderDocumentCommentRow(docConceptNotes)}
         <tr>
           <td>Branntekniske tegninger</td>
           <td class="center">${escapeHtml(document.getElementById("docDrawings").value || "")}</td>
         </tr>
+        ${renderDocumentCommentRow(docDrawingsNotes)}
       </table>
 
       <div class="lawBox">

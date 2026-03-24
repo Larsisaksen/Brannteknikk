@@ -1,4 +1,5 @@
 import "./style.css";
+import "pagedjs";
 
 import {
   addDeviation,
@@ -23,6 +24,15 @@ window.appActions = {
   toggleModule
 };
 
+function preparePrintLayout() {
+  document.body.classList.add("printing-report");
+  renderReport();
+}
+
+function cleanupPrintLayout() {
+  document.body.classList.remove("printing-report");
+}
+
 document.getElementById("coverImage").addEventListener("change", function () {
   handleCoverUpload(this);
 });
@@ -41,15 +51,24 @@ document.getElementById("coverImage").addEventListener("change", function () {
   "riskClass",
   "tek",
   "docConcept",
-  "docDrawings"
+  "docDrawings",
+  "docConceptNotes",
+  "docDrawingsNotes"
 ].forEach((id) => {
   document.getElementById(id).addEventListener("input", renderReport);
   document.getElementById(id).addEventListener("change", renderReport);
 });
 
+window.addEventListener("beforeprint", preparePrintLayout);
+window.addEventListener("afterprint", cleanupPrintLayout);
+
 document.getElementById("updateReportBtn").addEventListener("click", renderReport);
 document.getElementById("fillDemoBtn").addEventListener("click", fillDemo);
-document.getElementById("printBtn").addEventListener("click", () => window.print());
+document.getElementById("printBtn").addEventListener("click", () => {
+  preparePrintLayout();
+  window.print();
+  setTimeout(cleanupPrintLayout, 500);
+});
 document.getElementById("resetBtn").addEventListener("click", resetApp);
 
 renderForms();
