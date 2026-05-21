@@ -727,3 +727,207 @@ table {
   background: var(--bad) !important;
   color: #000 !important;
 }
+
+
+/* ===== Tripletex-vedlegg: kun fritekst og bilder ===== */
+.tripletexAttachment {
+  background: #fff;
+  color: #111;
+  padding: 0;
+  box-shadow: none;
+}
+
+.tripletexText {
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  margin-bottom: 18px;
+}
+
+.tripletexImages img {
+  display: block;
+  width: 100%;
+  max-height: 250mm;
+  object-fit: contain;
+  margin: 0 auto 12mm;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+@media print {
+  .tripletexAttachment {
+    width: 100%;
+    background: #fff;
+  }
+}
+
+
+/* ===== Tripletex-vedlegg: pen, ren PDF ===== */
+.tripletexAttachment {
+  background: #fff;
+  color: #111827;
+  box-shadow: none;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.tripletexPage {
+  background: #fff;
+  padding: 22mm;
+  min-height: 277mm;
+  page-break-after: always;
+}
+
+.tripletexPage:last-child {
+  page-break-after: auto;
+}
+
+.tripletexSection {
+  margin-bottom: 16mm;
+}
+
+.tripletexHeading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 2px solid #1f6fd1;
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+}
+
+.tripletexIcon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #1f6fd1;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  flex: 0 0 auto;
+}
+
+.tripletexHeading h2 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  color: #111827;
+}
+
+.tripletexText {
+  background: #eef6ff;
+  border-radius: 10px;
+  padding: 18px 20px;
+  font-size: 15px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  min-height: 45mm;
+}
+
+.tripletexImageGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8mm;
+}
+
+.tripletexImageGrid img {
+  width: 100%;
+  height: 58mm;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  body.printing-report .tripletexAttachment {
+    width: 100%;
+    background: #fff !important;
+  }
+
+  body.printing-report .tripletexPage {
+    box-sizing: border-box;
+    width: 210mm;
+    min-height: 297mm;
+    padding: 22mm;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  body.printing-report .tripletexPage:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+
+  body.printing-report .tripletexImageGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ===== Tripletex-vedlegg: mer samlet layout ===== */
+.tripletexPage {
+  padding: 20mm 18mm !important;
+}
+
+.tripletexSection {
+  margin-bottom: 10mm !important;
+}
+
+.tripletexHeading {
+  display: block !important;
+  border-bottom: 1px solid #d0d7de !important;
+  padding-bottom: 5px !important;
+  margin-bottom: 8mm !important;
+}
+
+.tripletexIcon {
+  display: none !important;
+}
+
+.tripletexHeading h2 {
+  font-size: 17px !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  color: #111 !important;
+}
+
+.tripletexText {
+  background: transparent !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  min-height: auto !important;
+  font-size: 13.5px !important;
+  line-height: 1.55 !important;
+  color: #222 !important;
+  margin-bottom: 10mm !important;
+}
+
+.tripletexImageGrid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 5mm !important;
+}
+
+.tripletexImageGrid img {
+  height: 62mm !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+  border: 1px solid #ddd !important;
+  object-fit: cover !important;
+}
+
+@media print {
+  .tripletexPage {
+    padding: 20mm 18mm !important;
+  }
+}
+

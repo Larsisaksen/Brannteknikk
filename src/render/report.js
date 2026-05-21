@@ -296,6 +296,56 @@ export function modulePages() {
   return pages.join("");
 }
 
+
+export function renderTripletexAttachment() {
+  const data = ensureModuleData(18);
+  const item = data.deviations[0] || { images: [] };
+  const images = item.images || [];
+  const imagePages = [];
+
+  for (let i = 0; i < images.length; i += 6) {
+    imagePages.push(images.slice(i, i + 6));
+  }
+
+  document.getElementById("pages").innerHTML = `
+    <article class="tripletexAttachment">
+      <section class="tripletexPage">
+        ${data.notes?.trim() ? `
+          <div class="tripletexSection">
+            <div class="tripletexHeading">
+              <span class="tripletexIcon">✎</span>
+              <h2>Beskrivelse</h2>
+            </div>
+            <div class="tripletexText">${escapeHtml(data.notes)}</div>
+          </div>
+        ` : ""}
+
+        ${imagePages.length ? `
+          <div class="tripletexSection">
+            <div class="tripletexHeading">
+              <span class="tripletexIcon">▣</span>
+              <h2>Bilder</h2>
+            </div>
+            <div class="tripletexImageGrid">
+              ${imagePages[0].map((src) => `<img src="${src}" alt="vedleggsbilde" />`).join("")}
+            </div>
+          </div>
+        ` : ""}
+      </section>
+
+      ${imagePages.slice(1).map((group) => `
+        <section class="tripletexPage">
+          <div class="tripletexSection">
+            <div class="tripletexImageGrid">
+              ${group.map((src) => `<img src="${src}" alt="vedleggsbilde" />`).join("")}
+            </div>
+          </div>
+        </section>
+      `).join("")}
+    </article>
+  `;
+}
+
 export function renderReport() {
   document.getElementById("pages").innerHTML = `
     <article class="reportDocument">

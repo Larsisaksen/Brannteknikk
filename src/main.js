@@ -13,7 +13,9 @@ import {
 } from "./actions.js";
 import { fillDemo } from "./demo.js";
 import { renderForms } from "./render/forms.js";
-import { renderReport } from "./render/report.js";
+import { renderReport, renderTripletexAttachment } from "./render/report.js";
+
+let isTripletexPrint = false;
 
 window.appActions = {
   addDeviation,
@@ -26,7 +28,10 @@ window.appActions = {
 
 function preparePrintLayout() {
   document.body.classList.add("printing-report");
-  renderReport();
+
+  if (!isTripletexPrint) {
+    renderReport();
+  }
 }
 
 function cleanupPrintLayout() {
@@ -64,6 +69,26 @@ window.addEventListener("afterprint", cleanupPrintLayout);
 
 document.getElementById("updateReportBtn").addEventListener("click", renderReport);
 document.getElementById("fillDemoBtn").addEventListener("click", fillDemo);
+
+document.getElementById("tripletexPrintBtn")?.addEventListener("click", () => {
+  isTripletexPrint = true;
+  const oldTitle = document.title;
+  document.title = "";
+  document.body.classList.add("printing-report");
+  renderTripletexAttachment();
+
+  setTimeout(() => {
+    window.print();
+
+    setTimeout(() => {
+      isTripletexPrint = false;
+      document.title = oldTitle;
+      cleanupPrintLayout();
+      renderReport();
+    }, 500);
+  }, 100);
+});
+
 document.getElementById("printBtn").addEventListener("click", () => {
   preparePrintLayout();
   window.print();
