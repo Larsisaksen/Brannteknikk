@@ -999,3 +999,66 @@ table {
     page-break-inside: avoid;
   }
 }
+
+/* ===== Tripletex FINAL COMPACT LAYOUT ===== */
+.tripletexPage,
+.tripletexFlowPage {
+  min-height: auto !important;
+  page-break-after: auto !important;
+  break-after: auto !important;
+  padding: 14mm 14mm !important;
+}
+
+.tripletexPointBlock {
+  margin-bottom: 7mm !important;
+  break-inside: auto !important;
+  page-break-inside: auto !important;
+}
+
+.tripletexPointHeader {
+  margin-bottom: 3mm !important;
+  padding-bottom: 2px !important;
+}
+
+.tripletexPointHeader span {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+
+.tripletexText {
+  margin-bottom: 4mm !important;
+  font-size: 13px !important;
+  line-height: 1.45 !important;
+}
+
+.tripletexImageGrid {
+  gap: 3mm !important;
+}
+
+.tripletexImageGrid img {
+  height: 54mm !important;
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
+
+@media print {
+  body.printing-report .tripletexPage,
+  body.printing-report .tripletexFlowPage {
+    min-height: auto !important;
+    page-break-after: auto !important;
+    break-after: auto !important;
+    padding: 14mm 14mm !important;
+  }
+
+  body.printing-report .tripletexPointBlock {
+    margin-bottom: 7mm !important;
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  body.printing-report .tripletexImageGrid img {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+}
+
