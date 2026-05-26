@@ -299,49 +299,60 @@ export function modulePages() {
 
 export function renderTripletexAttachment() {
   const data = ensureModuleData(18);
-  const item = data.deviations[0] || { images: [] };
-  const images = item.images || [];
-  const imagePages = [];
 
-  for (let i = 0; i < images.length; i += 6) {
-    imagePages.push(images.slice(i, i + 6));
-  }
+  const items = data.deviations
+    .map((item, index) => ({
+      index,
+      title: item.location || `Punkt ${index + 1}`,
+      text: item.deviation || "",
+      images: item.images || []
+    }))
+    .filter((item) => item.title.trim() || item.text.trim() || item.images.length);
 
   document.getElementById("pages").innerHTML = `
     <article class="tripletexAttachment">
-      <section class="tripletexPage">
-        ${data.notes?.trim() ? `
-          <div class="tripletexSection">
-            <div class="tripletexHeading">
-              <span class="tripletexIcon">✎</span>
-              <h2>Beskrivelse</h2>
-            </div>
-            <div class="tripletexText">${escapeHtml(data.notes)}</div>
-          </div>
-        ` : ""}
+      <section class="tripletexPage tripletexFlowPage">
+        ${
+          items.length
+            ? items.map((item) => {
+                const imageGroups = [];
 
-        ${imagePages.length ? `
-          <div class="tripletexSection">
-            <div class="tripletexHeading">
-              <span class="tripletexIcon">▣</span>
-              <h2>Bilder</h2>
-            </div>
-            <div class="tripletexImageGrid">
-              ${imagePages[0].map((src) => `<img src="${src}" alt="vedleggsbilde" />`).join("")}
-            </div>
-          </div>
-        ` : ""}
+                for (let i = 0; i < item.images.length; i += 6) {
+                  imageGroups.push(item.images.slice(i, i + 6));
+                }
+
+                return `
+                  <div class="tripletexPointBlock">
+                    <div class="tripletexPointHeader">
+                      <span>${escapeHtml(item.title)}</span>
+                    </div>
+
+                    ${item.text.trim() ? `
+                      <div class="tripletexText">${escapeHtml(item.text)}</div>
+                    ` : ""}
+
+                    ${imageGroups.length ? `
+                      <div class="tripletexImageGrid">
+                        ${imageGroups[0].map((src) => `<img src="${src}" alt="vedleggsbilde" />`).join("")}
+                      </div>
+                    ` : ""}
+                  </div>
+
+                  ${imageGroups.slice(1).map((group) => `
+                    <div class="tripletexPointBlock">
+                      <div class="tripletexPointHeader">
+                        <span>${escapeHtml(item.title)} – flere bilder</span>
+                      </div>
+                      <div class="tripletexImageGrid">
+                        ${group.map((src) => `<img src="${src}" alt="vedleggsbilde" />`).join("")}
+                      </div>
+                    </div>
+                  `).join("")}
+                `;
+              }).join("")
+            : `<div class="tripletexText">Ingen tekst eller bilder lagt inn.</div>`
+        }
       </section>
-
-      ${imagePages.slice(1).map((group) => `
-        <section class="tripletexPage">
-          <div class="tripletexSection">
-            <div class="tripletexImageGrid">
-              ${group.map((src) => `<img src="${src}" alt="vedleggsbilde" />`).join("")}
-            </div>
-          </div>
-        </section>
-      `).join("")}
     </article>
   `;
 }

@@ -931,3 +931,71 @@ table {
   }
 }
 
+
+
+/* ===== Tripletex flere punkter ===== */
+.tripletexPoint {
+  width: 100%;
+}
+
+.tripletexPointHeader {
+  border-bottom: 1px solid #d0d7de;
+  margin-bottom: 8mm;
+  padding-bottom: 4px;
+}
+
+.tripletexPointHeader span {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111;
+}
+
+.tripletexPoint + .tripletexPoint {
+  margin-top: 14mm;
+}
+
+
+/* ===== Tripletex flytende punkter ===== */
+.tripletexFlowPage {
+  min-height: auto !important;
+  page-break-after: auto !important;
+  break-after: auto !important;
+}
+
+.tripletexPointBlock {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  margin-bottom: 13mm;
+}
+
+.tripletexPointBlock:last-child {
+  margin-bottom: 0;
+}
+
+.tripletexPointHeader {
+  border-bottom: 1px solid #d0d7de !important;
+  margin-bottom: 5mm !important;
+  padding-bottom: 3px !important;
+}
+
+.tripletexPointHeader span {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: #111 !important;
+}
+
+.tripletexPointBlock .tripletexText {
+  margin-bottom: 6mm !important;
+}
+
+@media print {
+  body.printing-report .tripletexFlowPage {
+    page-break-after: auto !important;
+    break-after: auto !important;
+  }
+
+  body.printing-report .tripletexPointBlock {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}

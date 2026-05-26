@@ -106,60 +106,67 @@ function renderStandardModule(id, def, data) {
 }
 
 function renderOtherDeviationsModule(id, def, data) {
-  const item = data.deviations[0] || { images: [] };
-
   return `
     <div class="moduleForm">
       <div class="moduleHeader">
         <div>
           <h3>${id}. ${def.title}</h3>
-          <div class="tiny muted">Her kan du kun legge inn fritekst og laste opp bilde.</div>
+          <div class="tiny muted">Her kan du legge inn ett eller flere punkter med overskrift, fritekst og bilder.</div>
         </div>
-        <span class="pill">Fritekst + bilde</span>
+        <span class="pill">${data.deviations.length} punkt</span>
       </div>
 
-      <div class="row2">
-        <div>
-          <label>Kontroll utført</label>
-          <select onchange="window.appActions.updateModuleField(${id}, 'performed', this.value === 'true')">
-            <option value="true" ${data.performed ? "selected" : ""}>Ja</option>
-            <option value="false" ${!data.performed ? "selected" : ""}>Nei</option>
-          </select>
-        </div>
+      ${data.deviations.map((d, idx) => `
+        <div class="findingCard">
+          <h4>Punkt ${idx + 1}</h4>
 
-        <div>
-          <label>Oppsummering</label>
-          <select onchange="window.appActions.updateModuleField(${id}, 'summary', this.value)">
-            <option value="green" ${data.summary === "green" ? "selected" : ""}>Ingen registrerte avvik</option>
-            <option value="red" ${data.summary === "red" ? "selected" : ""}>Registrerte avvik</option>
-          </select>
-        </div>
-      </div>
-
-      <div>
-        <label>Fritekst / andre avvik</label>
-        <textarea
-          oninput="window.appActions.updateModuleField(${id}, 'notes', this.value)"
-          placeholder="Skriv fritekst for andre avvik"
-        >${escapeHtml(data.notes || "")}</textarea>
-      </div>
-
-      <div class="findingCard">
-        <div class="uploadBox">
-          <label>Bilder</label>
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            onchange="window.appActions.handleImageUpload(this, ${id}, 0)"
-          />
-          <div class="tiny muted">
-            Fungerer både for opplasting og mobilkamera dersom enheten tilbyr kamera i filvelgeren.
+          <div>
+            <label>Overskrift</label>
+            <input
+              value="${escapeHtml(d.location || "")}"
+              oninput="window.appActions.updateDeviationField(${id}, ${idx}, 'location', this.value)"
+              placeholder="F.eks. Fremre hjul venstre side"
+            />
           </div>
-          <div class="thumbs">
-            ${(item.images || []).map((src) => `<img src="${src}" alt="avviksbilde" />`).join("")}
+
+          <div style="margin-top:10px;">
+            <label>Fritekst</label>
+            <textarea
+              oninput="window.appActions.updateDeviationField(${id}, ${idx}, 'deviation', this.value)"
+              placeholder="Skriv fritekst for dette punktet"
+            >${escapeHtml(d.deviation || "")}</textarea>
           </div>
+
+          <div class="uploadBox" style="margin-top:10px;">
+            <label>Bilder til punkt ${idx + 1}</label>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onchange="window.appActions.handleImageUpload(this, ${id}, ${idx})"
+            />
+            <div class="tiny muted">
+              Bildene legges kun til dette punktet.
+            </div>
+            <div class="thumbs">
+              ${(d.images || []).map((src) => `<img src="${src}" alt="avviksbilde" />`).join("")}
+            </div>
+          </div>
+
+          ${data.deviations.length > 1 ? `
+            <div class="btnRow">
+              <button type="button" class="btnGhost" onclick="window.appActions.removeDeviation(${id}, ${idx})">
+                Slett punkt
+              </button>
+            </div>
+          ` : ""}
         </div>
+      `).join("")}
+
+      <div class="btnRow">
+        <button type="button" class="btnSecondary" onclick="window.appActions.addDeviation(${id})">
+          Legg til mer
+        </button>
       </div>
     </div>
   `;
